@@ -67,7 +67,7 @@ book.Remove(swordRecipe); // Returns this RecipeBook
 
 ### CraftingTable.cs
 
-Static class with methods to verify a Recipe is able to be crafted and to craft a Recipe using
+Static class with methods to verify a Recipe can be crafted and to craft a Recipe using
 one or more Inventories as a source for the required Ingredients. (Inventory class is part of the 
 Loot system found here: https://github.com/trecchia/Loot.cs.git)
 
@@ -80,10 +80,12 @@ invA.Add(wood, 1);
 
 invB.Add(iron, 1);
 
-// Returns false as inventoryA does not contain all of the required Ingredients for swordRecipe
+// Returns false as inventoryA does not contain all 
+// of the required Ingredients for swordRecipe
 bool canCraft = CraftingTable.Craftable(swordRecipe, invA); 
 
-// Returns true as inventoryA and inventoryB combined contain all of the required Ingredients for swordRecipe
+// Returns true as inventoryA and inventoryB combined contain all
+// of the required Ingredients for swordRecipe
 Inventory[] invList = new Inventory[] {inventoryA, inventoryB};
 bool canCraft = CraftingTable.Craftable(swordRecipe, invList);
 
