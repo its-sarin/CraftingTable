@@ -71,6 +71,8 @@ Static class with methods to verify a Recipe can be crafted and to craft a Recip
 one or more Inventories as a source for the required Ingredients. (Inventory class is part of the 
 Loot system found here: https://github.com/trecchia/Loot.cs.git)
 
+#### Example
+
 ```c#
 Inventory inventoryA = new Inventory();
 Inventory inventoryB = new Inventory();
