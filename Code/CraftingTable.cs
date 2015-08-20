@@ -51,7 +51,7 @@
  *
  *
  */
-
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 
@@ -60,7 +60,7 @@ namespace LootSystem {
     [Serializable]
     public static class CraftingTable {
 
-        // [Craftable] - Returns true or false if Inventory (or Inventories) contains enough materials to craft a given Recipe
+        /* [Craftable] - Returns true or false if Inventory (or Inventories) contains enough materials to craft a given Recipe */
         public static bool Craftable(Recipe recipe, Inventory inventory) {
             // Set ingredient variables
             Dictionary<int, int> ing = recipe.Ingredients.Contents;
@@ -87,38 +87,58 @@ namespace LootSystem {
 
         public static bool Craftable(Recipe recipe, Inventory[] inventories) {
             Dictionary<int, int> ing = recipe.Ingredients.Contents;
-            List<int> ingList = new List<int>(ing.Keys);
+            List<int> ingList = new List<int>(ing.Keys);            
             int c = ingList.Count;
-            int d = inventories.Length;
-            bool hasEnough = false;
+            int d = inventories.Length;            
             int lootCount = 0;
+
+            // countList will hold a total count of available Loot for each Recipe Ingredient
+            Dictionary<int, int> countList = new Dictionary<int, int>(c);
 
             // Iterate through all Ingredients in the Recipe
             for (int i = 0; i < c; i++) {
-                hasEnough = false;
+                // Reset lootCount to 0 for this Ingredient
                 lootCount = 0;
 
                 // Iterate through all of the Inventories
                 for (int j = 0; j < d; j++) {
+                    // If the current inventory contains this Ingredient, continue
                     if (inventories[j].Contains(ingList[i])) {
-                        if (inventories[j].Quantity(ingList[i]) < ing[ingList[i]]) {
-                            // If the current Inventory contains the Loot item but does not have enough, add it to the lootCount
-                            lootCount += inventories[j].Quantity(ingList[i]);
+                        // Current Inventory's quantity of the current Recipe Ingredient
+                        int q = inventories[j].Quantity(ingList[i]);
+                        // Current Recipe Ingredient's quantity requirement
+                        int g = ing[ingList[i]];
 
-                            // If the new lootCount meet or exceeds the Recipe requirements, set our flag to true
-                            if (lootCount >= ing[ingList[i]])
-                                hasEnough = true;
+                        // If the current Inventory contains the Loot item but does not have enough, 
+                        // add its quantity to the lootCount
+                        if (q < g) {                            
+                            lootCount += q;
                         }
-                        // If the current Inventory contains the Loot item and has sufficient quantities, set our flag to true 
-                        else {
-                            hasEnough = true;
-                        }
-                    }
+
+                        // If the current Inventory contains the Loot item and has sufficient quantities,
+                        // add the required Ingredient quantity to lootCount
+                        else if (q >= g) {
+                            lootCount += g;
+                        } 
+                    }                    
                 }
+
+                // After iterating through all of the Inventories, set the total accumulated
+                // lootCount to a list with the Recipe's index as its index
+                countList[i] = lootCount;
             }
 
-            // Return true if all previous checks passed
-            return hasEnough;
+
+            // After iterating through all of our Ingredients and all of our Inventories, 
+            // check each value in countList and compare it to its Ingredient's required quantity.
+            // If even one value is less than required, we don't have enough Ingredients and return false.
+            for (int r = 0; r < c; r++) {
+                if (countList[r] < ing[ingList[r]])
+                    return false;
+            }
+
+            // If the previous checks passed, return true
+            return true;
         }
 
         // [Craft]
@@ -148,6 +168,7 @@ namespace LootSystem {
 
                 for (int j = 0; j < inventories.Length; j++) {
                     int q = inventories[j].Quantity(ingList[i]);
+                    Debug.Log(q);
 
                     // If the current Inventory contains all of the required Ingredients,
                     // remove them all and break out of this loop.
