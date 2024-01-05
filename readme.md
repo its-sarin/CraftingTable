@@ -6,7 +6,7 @@ The CraftingTable.cs System consists of four core classes:
 - RecipeBook.cs
 - CraftingTable.cs
 
-With a dependancy on Loot.cs (and Inventory.cs) from https://github.com/its-sarin/Loot.cs.git 
+With a dependancy on Loot.cs (and Inventory.cs) from [https://github.com/its-sarin/Loot.cs.git ](https://github.com/its-sarin/Inventory.cs)
 
 ## Usage:
 
