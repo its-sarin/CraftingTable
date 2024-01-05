@@ -6,7 +6,7 @@ The CraftingTable.cs System consists of four core classes:
 - RecipeBook.cs
 - CraftingTable.cs
 
-With a dependancy on Loot.cs (and Inventory.cs) from [https://github.com/its-sarin/Loot.cs.git ](https://github.com/its-sarin/Inventory.cs)
+With a dependancy on Loot.cs (and Inventory.cs) from [https://github.com/its-sarin/Inventory.cs]
 
 ## Usage:
 
@@ -69,7 +69,7 @@ book.Remove(swordRecipe); // Returns this RecipeBook
 
 Static class with methods to verify a Recipe can be crafted and to craft a Recipe using
 one or more Inventories as a source for the required Ingredients. (Inventory class is part of the 
-Loot system found here: https://github.com/trecchia/Loot.cs.git)
+Loot system found here: [https://github.com/its-sarin/Inventory.cs])
 
 #### Example
 
